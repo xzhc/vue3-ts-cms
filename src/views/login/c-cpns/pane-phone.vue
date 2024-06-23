@@ -1,13 +1,13 @@
 <template>
-  <div class="main">
-    <h2>main</h2>
+  <div class="pane-phone">
+    <h2>pane-phone</h2>
   </div>
 </template>
 
 <script setup lang="ts"></script>
 
 <style lang="less" scoped>
-.main {
+.pane-phone {
   color: red;
 }
 </style>
