@@ -2,8 +2,9 @@ import { accountLoginRequest } from '@/service/login/login'
 import { defineStore } from 'pinia'
 import type { IAccount } from '@/types'
 import { localCache } from '@/utils/cache'
+import { LOGIN_TOKEN } from '@/global/constants'
+import router from '@/router'
 
-const LOGIN_TOKEN = 'login/token'
 const useLoginStore = defineStore('login', {
   state: () => ({
     id: '',
@@ -22,6 +23,9 @@ const useLoginStore = defineStore('login', {
       //2.本地缓存token
       // localStorage.setItem('token', this.token)
       localCache.setCache(LOGIN_TOKEN, this.token)
+
+      //3.跳转到main页面
+      router.push('/main')
     }
   }
 })
