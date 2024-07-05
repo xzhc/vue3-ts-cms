@@ -8,6 +8,7 @@ import type { IAccount } from '@/types'
 import { localCache } from '@/utils/cache'
 import { LOGIN_TOKEN } from '@/global/constants'
 import router from '@/router'
+import { mapMenusToRoutes } from '@/utils/map-menus'
 
 interface ILoginState {
   token: string
@@ -46,8 +47,33 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenus', userMenus)
 
+      //动态的添加路由
+      const routes = mapMenusToRoutes(userMenus)
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
+
       //5.跳转到main页面
       router.push('/main')
+    },
+
+    loadLocalCacheAction() {
+      //1.用户加载默认数据
+      const token = localCache.getCache(LOGIN_TOKEN)
+      const userInfo = localCache.getCache('userInfo')
+      const userMenus = localCache.getCache('userMenus')
+
+      if (token && userInfo && userMenus) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenus = userMenus
+
+        //2.动态添加路由
+        const routes = mapMenusToRoutes(userMenus)
+        routes.forEach((route) => {
+          router.addRoute('main', route)
+        })
+      }
     }
   }
 })

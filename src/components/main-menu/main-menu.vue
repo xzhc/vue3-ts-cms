@@ -8,7 +8,7 @@
     <!--2.menu -->
     <div class="menu">
       <el-menu
-        default-active="3"
+        :default-active="defaultActive"
         :collapse="isFold"
         text-color="#b7bdc3"
         active-text-color="#fff"
@@ -26,7 +26,7 @@
             </template>
             <template v-for="subitem in item.children" :key="subitem.id">
               <el-menu-item
-                :index="subitem.id"
+                :index="subitem.id + ''"
                 @click="handleItemClick(subitem)"
                 >{{ subitem.name }}</el-menu-item
               >
@@ -40,7 +40,9 @@
 
 <script setup lang="ts">
 import useLoginStore from '@/store/login/login'
-import { useRouter } from 'vue-router'
+import { mapPathToMenu } from '@/utils/map-menus'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 //0.定义props
 defineProps({
@@ -58,8 +60,14 @@ const userMenus = loginStore.userMenus
 const router = useRouter()
 function handleItemClick(item: any) {
   router.push(item.url)
-  console.log(item.url)
 }
+
+//3.Elmenu的默认菜单设置
+const route = useRoute()
+const defaultActive = computed(() => {
+  const pathMenu = mapPathToMenu(route.path, userMenus)
+  return pathMenu.id + ''
+})
 </script>
 
 <style lang="less" scoped>

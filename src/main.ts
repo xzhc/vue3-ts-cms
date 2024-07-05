@@ -3,8 +3,10 @@ import App from './App.vue'
 import 'normalize.css'
 import './assets/css/index.less'
 import router from './router'
-import pinia from './store'
+// import pinia from './store'
 import registerIcons from './global/register-icons'
+// import useLoginStore from './store/login/login'
+import store from './store'
 
 //0.针对ElMessage和ElLoading等组件引入样式
 //0.1全局引入
@@ -23,6 +25,9 @@ import registerIcons from './global/register-icons'
 const app = createApp(App)
 
 app.use(registerIcons)
+// app.use(pinia)
+// const loginStore = useLoginStore()
+// loginStore.loadLocalCacheAction()
+app.use(store)
 app.use(router)
-app.use(pinia)
 app.mount('#app')
