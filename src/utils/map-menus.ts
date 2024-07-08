@@ -70,12 +70,48 @@ export function mapMenusToRoutes(userMenus: any[]) {
   return routes
 }
 
+/**
+ * 将路径映射到菜单项。
+ *
+ * 该函数遍历用户菜单列表，寻找与给定路径匹配的子菜单。如果找到匹配的子菜单，
+ * 则返回该子菜单对象。这有助于根据当前URL确定应高亮显示的菜单项。
+ *
+ * @param path 用户请求的路径字符串。
+ * @param userMenus 用户的菜单列表，其中每个菜单项可能包含子菜单。
+ * @returns 如果找到匹配的子菜单，则返回该子菜单对象；否则，返回undefined。
+ */
 export function mapPathToMenu(path: string, userMenus: any[]) {
+  // 遍历用户菜单列表
   for (const menu of userMenus) {
+    // 遍历菜单的子菜单
     for (const subMenu of menu.children) {
+      //检查当前子菜单的url是否与所给路径相匹配
       if (path === subMenu.url) {
+        // 如果匹配，则返回当前子菜单
         return subMenu
       }
     }
   }
+}
+
+interface IBreadcrumb {
+  name: string
+  path: string
+}
+
+export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
+  //1.定义面包屑
+  const breadcrumbs: IBreadcrumb[] = []
+  //2.遍历获取面包屑层级
+  for (const menu of userMenus) {
+    for (const submenu of menu.children) {
+      if (path === submenu.url) {
+        // 1.顶级菜单
+        breadcrumbs.push({ name: menu.name, path: menu.url })
+        //2. 匹配菜单
+        breadcrumbs.push({ name: submenu.name, path: submenu.url })
+      }
+    }
+  }
+  return breadcrumbs
 }

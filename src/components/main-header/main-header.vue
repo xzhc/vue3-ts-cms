@@ -7,14 +7,15 @@
     </div>
 
     <div class="content">
-      <div class="breadcrumb">面包屑</div>
-      <header-info />
+      <headerCrumb />
+      <headerInfo />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import headerCrumb from './c-cpns/header-crumb.vue'
 import headerInfo from './c-cpns/header-info.vue'
 //0.内部定义菜单是否折叠的事件
 const emit = defineEmits(['foldChange'])
@@ -35,15 +36,15 @@ function handleMenuIconClick() {
   height: 100%;
 
   .menu-icon {
-    cursor: pointer;
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 
   .content {
     display: flex;
     justify-content: space-between;
-    align-content: center;
+    align-items: center;
     flex: 1;
     padding: 0 18px;
   }
