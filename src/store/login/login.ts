@@ -9,6 +9,7 @@ import { localCache } from '@/utils/cache'
 import { LOGIN_TOKEN } from '@/global/constants'
 import router from '@/router'
 import { mapMenusToRoutes } from '@/utils/map-menus'
+import useMainStore from '../main/main'
 
 interface ILoginState {
   token: string
@@ -47,6 +48,10 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenus', userMenus)
 
+      //5.请求所有roles/departments数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
+
       //动态的添加路由
       const routes = mapMenusToRoutes(userMenus)
       routes.forEach((route) => {
@@ -67,6 +72,9 @@ const useLoginStore = defineStore('login', {
         this.token = token
         this.userInfo = userInfo
         this.userMenus = userMenus
+
+        const mainStore = useMainStore()
+        mainStore.fetchEntireDataAction()
 
         //2.动态添加路由
         const routes = mapMenusToRoutes(userMenus)
