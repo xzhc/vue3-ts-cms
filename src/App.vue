@@ -1,12 +1,18 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="app">
-    <h2>App</h2>
-    <router-link to="/main">主要</router-link>
-    <router-link to="/login">登录</router-link>
-    <router-view></router-view>
+    <el-config-provider :locale="zhCn">
+      <router-view></router-view>
+    </el-config-provider>
   </div>
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+</script>
+
+<style scoped>
+.app {
+  height: 100vh;
+  width: 100vw;
+}
+</style>
